@@ -176,6 +176,7 @@ export type GetBookedSlots200BookedSlotsItem = {
   createdAt: string;
   updatedAt: string;
   appointmentId: string;
+  patientEmail: string;
 };
 
 export type GetBookedSlots200 = {

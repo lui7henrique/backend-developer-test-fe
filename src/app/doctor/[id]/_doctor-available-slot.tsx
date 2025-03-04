@@ -21,6 +21,7 @@ import {
 	type GetAvailableSlots200AvailableSlotsItemSlotsItem,
 	getAvailableSlots,
 	getGetAvailableSlotsQueryKey,
+	getGetBookedSlotsQueryKey,
 	useCreateAppointment,
 } from "@/http/api";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -78,14 +79,16 @@ export function DoctorAvailableSlot({ slot }: DoctorAvailableSlotProps) {
 					toast.success("Appointment created successfully");
 					setOpen(false);
 
-					const queryKey = getGetAvailableSlotsQueryKey(slot.doctorId, {
-						startDate: startDate,
-						endDate: endDate,
+					queryClient.invalidateQueries({
+						queryKey: getGetAvailableSlotsQueryKey(slot.doctorId, {
+							startDate: startDate,
+							endDate: endDate,
+						}),
+						exact: true,
 					});
 
 					queryClient.invalidateQueries({
-						queryKey: queryKey,
-						exact: true,
+						queryKey: getGetBookedSlotsQueryKey(slot.doctorId),
 					});
 				},
 			},

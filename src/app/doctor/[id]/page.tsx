@@ -5,6 +5,7 @@ import { ArrowLeftIcon } from "lucide-react";
 import { Link } from "next-view-transitions";
 import { redirect } from "next/navigation";
 import { DoctorCalendar } from "./_doctor-calendar";
+import { DoctorBookedSlots } from "./_doctor-schedule";
 
 export default async function DoctorPage({
 	params,
@@ -34,7 +35,7 @@ export default async function DoctorPage({
 					</BlurFade>
 				</div>
 
-				<Tabs className="space-y-4" defaultValue="available">
+				<Tabs className="space-y-2" defaultValue="available">
 					<BlurFade delay={0.3}>
 						<TabsList>
 							<TabsTrigger value="available">Available</TabsTrigger>
@@ -45,6 +46,12 @@ export default async function DoctorPage({
 					<TabsContent value="available">
 						<BlurFade delay={0.4}>
 							<DoctorCalendar id={params.id} />
+						</BlurFade>
+					</TabsContent>
+
+					<TabsContent value="booked">
+						<BlurFade delay={0.4}>
+							<DoctorBookedSlots id={params.id} />
 						</BlurFade>
 					</TabsContent>
 				</Tabs>
