@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "@/components/providers";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ViewTransitions } from "next-view-transitions";
 import { Inter, Playfair_Display } from "next/font/google";
 
@@ -22,8 +21,6 @@ export const metadata: Metadata = {
 	},
 };
 
-const queryClient = new QueryClient();
-
 export default function RootLayout({
 	children,
 }: Readonly<{
@@ -33,7 +30,7 @@ export default function RootLayout({
 		<ViewTransitions>
 			<Providers>
 				<html lang="en">
-					<body className={`${inter.className} bg-[#f9f5f3] px-4 py-12`}>
+					<body className={`${inter.className} bg-[#f9f5f3] mx-4 my-12`}>
 						<main className="mx-auto max-w-2xl bg-white border rounded-lg p-4">
 							{children}
 						</main>
