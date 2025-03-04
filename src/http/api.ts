@@ -4,14 +4,35 @@
  * Backend Developer Test
  * OpenAPI spec version: 0.0.1
  */
-export type PostDoctorsBody = {
+import {
+  useMutation,
+  useQuery,
+  useSuspenseQuery
+} from '@tanstack/react-query';
+import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
+  MutationFunction,
+  QueryFunction,
+  QueryKey,
+  UndefinedInitialDataOptions,
+  UseMutationOptions,
+  UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult,
+  UseSuspenseQueryOptions,
+  UseSuspenseQueryResult
+} from '@tanstack/react-query';
+
+export type CreateDoctorBody = {
   username: string;
   firstName: string;
   lastName: string;
   email: string;
 };
 
-export type PostDoctors201Doctor = {
+export type CreateDoctor201Doctor = {
   id: string;
   username: string;
   firstName: string;
@@ -20,8 +41,8 @@ export type PostDoctors201Doctor = {
   createdAt: string;
 };
 
-export type PostDoctors201 = {
-  doctor: PostDoctors201Doctor;
+export type CreateDoctor201 = {
+  doctor: CreateDoctor201Doctor;
 };
 
 export type GetDoctors200Item = {
@@ -33,18 +54,18 @@ export type GetDoctors200Item = {
   createdAt: string;
 };
 
-export type PostSlotsBodyRecurrenceType = typeof PostSlotsBodyRecurrenceType[keyof typeof PostSlotsBodyRecurrenceType];
+export type CreateSlotBodyRecurrenceType = typeof CreateSlotBodyRecurrenceType[keyof typeof CreateSlotBodyRecurrenceType];
 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostSlotsBodyRecurrenceType = {
+export const CreateSlotBodyRecurrenceType = {
   NONE: 'NONE',
   DAILY: 'DAILY',
   WEEKLY: 'WEEKLY',
   MONTHLY: 'MONTHLY',
 } as const;
 
-export type PostSlotsBody = {
+export type CreateSlotBody = {
   doctorId: string;
   startTime: string;
   endTime: string;
@@ -52,23 +73,23 @@ export type PostSlotsBody = {
   startDate?: string | null;
   /** @nullable */
   endDate?: string | null;
-  recurrenceType?: PostSlotsBodyRecurrenceType;
+  recurrenceType?: CreateSlotBodyRecurrenceType;
   createdAt?: string;
   updatedAt?: string;
 };
 
-export type PostSlots201NewSlotsItemRecurrenceType = typeof PostSlots201NewSlotsItemRecurrenceType[keyof typeof PostSlots201NewSlotsItemRecurrenceType];
+export type CreateSlot201NewSlotsItemRecurrenceType = typeof CreateSlot201NewSlotsItemRecurrenceType[keyof typeof CreateSlot201NewSlotsItemRecurrenceType];
 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PostSlots201NewSlotsItemRecurrenceType = {
+export const CreateSlot201NewSlotsItemRecurrenceType = {
   NONE: 'NONE',
   DAILY: 'DAILY',
   WEEKLY: 'WEEKLY',
   MONTHLY: 'MONTHLY',
 } as const;
 
-export type PostSlots201NewSlotsItem = {
+export type CreateSlot201NewSlotsItem = {
   id: string;
   doctorId: string;
   startTime: string;
@@ -77,38 +98,72 @@ export type PostSlots201NewSlotsItem = {
   startDate: string | null;
   /** @nullable */
   endDate: string | null;
-  recurrenceType: PostSlots201NewSlotsItemRecurrenceType;
+  recurrenceType: CreateSlot201NewSlotsItemRecurrenceType;
   createdAt: string;
   updatedAt: string;
 };
 
-export type PostSlots201 = {
-  newSlots: PostSlots201NewSlotsItem[];
+export type CreateSlot201 = {
+  newSlots: CreateSlot201NewSlotsItem[];
 };
 
-export type GetDoctorsDoctorIdAvailableSlotsParams = {
+export type GetAvailableSlotsParams = {
 startDate?: string & string;
 endDate?: string & string;
 };
 
-export type PostSlotsSlotIdBookBody = {
+export type GetAvailableSlots200AvailableSlotsItemSlotsItemRecurrenceType = typeof GetAvailableSlots200AvailableSlotsItemSlotsItemRecurrenceType[keyof typeof GetAvailableSlots200AvailableSlotsItemSlotsItemRecurrenceType];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetAvailableSlots200AvailableSlotsItemSlotsItemRecurrenceType = {
+  NONE: 'NONE',
+  DAILY: 'DAILY',
+  WEEKLY: 'WEEKLY',
+  MONTHLY: 'MONTHLY',
+} as const;
+
+export type GetAvailableSlots200AvailableSlotsItemSlotsItem = {
+  id: string;
+  doctorId: string;
+  startTime: string;
+  endTime: string;
+  /** @nullable */
+  startDate: string | null;
+  /** @nullable */
+  endDate: string | null;
+  recurrenceType: GetAvailableSlots200AvailableSlotsItemSlotsItemRecurrenceType;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type GetAvailableSlots200AvailableSlotsItem = {
+  date: string;
+  slots: GetAvailableSlots200AvailableSlotsItemSlotsItem[];
+};
+
+export type GetAvailableSlots200 = {
+  availableSlots: GetAvailableSlots200AvailableSlotsItem[];
+};
+
+export type CreateAppointmentBody = {
   startTime: string;
   endTime: string;
   patientEmail: string;
 };
 
-export type GetDoctorsDoctorIdBooked200BookedSlotsItemRecurrenceType = typeof GetDoctorsDoctorIdBooked200BookedSlotsItemRecurrenceType[keyof typeof GetDoctorsDoctorIdBooked200BookedSlotsItemRecurrenceType];
+export type GetBookedSlots200BookedSlotsItemRecurrenceType = typeof GetBookedSlots200BookedSlotsItemRecurrenceType[keyof typeof GetBookedSlots200BookedSlotsItemRecurrenceType];
 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetDoctorsDoctorIdBooked200BookedSlotsItemRecurrenceType = {
+export const GetBookedSlots200BookedSlotsItemRecurrenceType = {
   NONE: 'NONE',
   DAILY: 'DAILY',
   WEEKLY: 'WEEKLY',
   MONTHLY: 'MONTHLY',
 } as const;
 
-export type GetDoctorsDoctorIdBooked200BookedSlotsItem = {
+export type GetBookedSlots200BookedSlotsItem = {
   id: string;
   doctorId: string;
   startTime: string;
@@ -117,56 +172,118 @@ export type GetDoctorsDoctorIdBooked200BookedSlotsItem = {
   startDate: string | null;
   /** @nullable */
   endDate: string | null;
-  recurrenceType: GetDoctorsDoctorIdBooked200BookedSlotsItemRecurrenceType;
+  recurrenceType: GetBookedSlots200BookedSlotsItemRecurrenceType;
   createdAt: string;
   updatedAt: string;
   appointmentId: string;
 };
 
-export type GetDoctorsDoctorIdBooked200 = {
-  bookedSlots: GetDoctorsDoctorIdBooked200BookedSlotsItem[];
+export type GetBookedSlots200 = {
+  bookedSlots: GetBookedSlots200BookedSlotsItem[];
+};
+
+export type GetDoctorById200Doctor = {
+  id: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  createdAt: string;
+};
+
+export type GetDoctorById200 = {
+  doctor: GetDoctorById200Doctor;
+};
+
+export type GetDoctorById404 = {
+  message: string;
 };
 
 /**
  * Create a doctor
  */
-export const getPostDoctorsUrl = () => {
+export const getCreateDoctorUrl = () => {
 
 
   
 
-  return `https://backend-developer-test-tdj0l.kinsta.app/doctors`
+  return `http://localhost:3000/doctors`
 }
 
-export const postDoctors = async (postDoctorsBody: PostDoctorsBody, options?: RequestInit): Promise<PostDoctors201> => {
+export const createDoctor = async (createDoctorBody: CreateDoctorBody, options?: RequestInit): Promise<CreateDoctor201> => {
   
-  const res = await fetch(getPostDoctorsUrl(),
+  const res = await fetch(getCreateDoctorUrl(),
   {      
     ...options,
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(
-      postDoctorsBody,)
+      createDoctorBody,)
   }
 )
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: PostDoctors201 = body ? JSON.parse(body) : {}
+  const data: CreateDoctor201 = body ? JSON.parse(body) : {}
 
   return data
 }
 
 
 
+
+export const getCreateDoctorMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createDoctor>>, TError,{data: CreateDoctorBody}, TContext>, fetch?: RequestInit}
+): UseMutationOptions<Awaited<ReturnType<typeof createDoctor>>, TError,{data: CreateDoctorBody}, TContext> => {
+    
+const mutationKey = ['createDoctor'];
+const {mutation: mutationOptions, fetch: fetchOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, fetch: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createDoctor>>, {data: CreateDoctorBody}> = (props) => {
+          const {data} = props ?? {};
+
+          return  createDoctor(data,fetchOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateDoctorMutationResult = NonNullable<Awaited<ReturnType<typeof createDoctor>>>
+    export type CreateDoctorMutationBody = CreateDoctorBody
+    export type CreateDoctorMutationError = unknown
+
+    export const useCreateDoctor = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createDoctor>>, TError,{data: CreateDoctorBody}, TContext>, fetch?: RequestInit}
+): UseMutationResult<
+        Awaited<ReturnType<typeof createDoctor>>,
+        TError,
+        {data: CreateDoctorBody},
+        TContext
+      > => {
+
+      const mutationOptions = getCreateDoctorMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
 /**
  * Get all doctors
+ * @summary Get all doctors
  */
 export const getGetDoctorsUrl = () => {
 
 
   
 
-  return `https://backend-developer-test-tdj0l.kinsta.app/doctors`
+  return `http://localhost:3000/doctors`
 }
 
 export const getDoctors = async ( options?: RequestInit): Promise<GetDoctors200Item[]> => {
@@ -188,42 +305,212 @@ export const getDoctors = async ( options?: RequestInit): Promise<GetDoctors200I
 
 
 
+export const getGetDoctorsQueryKey = () => {
+    return [`http://localhost:3000/doctors`] as const;
+    }
+
+    
+export const getGetDoctorsQueryOptions = <TData = Awaited<ReturnType<typeof getDoctors>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getDoctors>>, TError, TData>>, fetch?: RequestInit}
+) => {
+
+const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetDoctorsQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getDoctors>>> = ({ signal }) => getDoctors({ signal, ...fetchOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getDoctors>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetDoctorsQueryResult = NonNullable<Awaited<ReturnType<typeof getDoctors>>>
+export type GetDoctorsQueryError = unknown
+
+
+export function useGetDoctors<TData = Awaited<ReturnType<typeof getDoctors>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getDoctors>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getDoctors>>,
+          TError,
+          Awaited<ReturnType<typeof getDoctors>>
+        > , 'initialData'
+      >, fetch?: RequestInit}
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetDoctors<TData = Awaited<ReturnType<typeof getDoctors>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getDoctors>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getDoctors>>,
+          TError,
+          Awaited<ReturnType<typeof getDoctors>>
+        > , 'initialData'
+      >, fetch?: RequestInit}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetDoctors<TData = Awaited<ReturnType<typeof getDoctors>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getDoctors>>, TError, TData>>, fetch?: RequestInit}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get all doctors
+ */
+
+export function useGetDoctors<TData = Awaited<ReturnType<typeof getDoctors>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getDoctors>>, TError, TData>>, fetch?: RequestInit}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetDoctorsQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getGetDoctorsSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getDoctors>>, TError = unknown>( options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getDoctors>>, TError, TData>>, fetch?: RequestInit}
+) => {
+
+const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetDoctorsQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getDoctors>>> = ({ signal }) => getDoctors({ signal, ...fetchOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getDoctors>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetDoctorsSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getDoctors>>>
+export type GetDoctorsSuspenseQueryError = unknown
+
+
+export function useGetDoctorsSuspense<TData = Awaited<ReturnType<typeof getDoctors>>, TError = unknown>(
+  options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getDoctors>>, TError, TData>>, fetch?: RequestInit}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetDoctorsSuspense<TData = Awaited<ReturnType<typeof getDoctors>>, TError = unknown>(
+  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getDoctors>>, TError, TData>>, fetch?: RequestInit}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetDoctorsSuspense<TData = Awaited<ReturnType<typeof getDoctors>>, TError = unknown>(
+  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getDoctors>>, TError, TData>>, fetch?: RequestInit}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get all doctors
+ */
+
+export function useGetDoctorsSuspense<TData = Awaited<ReturnType<typeof getDoctors>>, TError = unknown>(
+  options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getDoctors>>, TError, TData>>, fetch?: RequestInit}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetDoctorsSuspenseQueryOptions(options)
+
+  const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
 /**
  * Create a slot
  */
-export const getPostSlotsUrl = () => {
+export const getCreateSlotUrl = () => {
 
 
   
 
-  return `https://backend-developer-test-tdj0l.kinsta.app/slots`
+  return `http://localhost:3000/slots`
 }
 
-export const postSlots = async (postSlotsBody: PostSlotsBody, options?: RequestInit): Promise<PostSlots201> => {
+export const createSlot = async (createSlotBody: CreateSlotBody, options?: RequestInit): Promise<CreateSlot201> => {
   
-  const res = await fetch(getPostSlotsUrl(),
+  const res = await fetch(getCreateSlotUrl(),
   {      
     ...options,
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(
-      postSlotsBody,)
+      createSlotBody,)
   }
 )
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: PostSlots201 = body ? JSON.parse(body) : {}
+  const data: CreateSlot201 = body ? JSON.parse(body) : {}
 
   return data
 }
 
 
 
+
+export const getCreateSlotMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSlot>>, TError,{data: CreateSlotBody}, TContext>, fetch?: RequestInit}
+): UseMutationOptions<Awaited<ReturnType<typeof createSlot>>, TError,{data: CreateSlotBody}, TContext> => {
+    
+const mutationKey = ['createSlot'];
+const {mutation: mutationOptions, fetch: fetchOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, fetch: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createSlot>>, {data: CreateSlotBody}> = (props) => {
+          const {data} = props ?? {};
+
+          return  createSlot(data,fetchOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateSlotMutationResult = NonNullable<Awaited<ReturnType<typeof createSlot>>>
+    export type CreateSlotMutationBody = CreateSlotBody
+    export type CreateSlotMutationError = unknown
+
+    export const useCreateSlot = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createSlot>>, TError,{data: CreateSlotBody}, TContext>, fetch?: RequestInit}
+): UseMutationResult<
+        Awaited<ReturnType<typeof createSlot>>,
+        TError,
+        {data: CreateSlotBody},
+        TContext
+      > => {
+
+      const mutationOptions = getCreateSlotMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
 /**
  * Get all available slots for a doctor
  */
-export const getGetDoctorsDoctorIdAvailableSlotsUrl = (doctorId: string,
-    params?: GetDoctorsDoctorIdAvailableSlotsParams,) => {
+export const getGetAvailableSlotsUrl = (doctorId: string,
+    params?: GetAvailableSlotsParams,) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
@@ -235,13 +522,13 @@ export const getGetDoctorsDoctorIdAvailableSlotsUrl = (doctorId: string,
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `https://backend-developer-test-tdj0l.kinsta.app/doctors/${doctorId}/available_slots?${stringifiedParams}` : `https://backend-developer-test-tdj0l.kinsta.app/doctors/${doctorId}/available_slots`
+  return stringifiedParams.length > 0 ? `http://localhost:3000/doctors/${doctorId}/available_slots?${stringifiedParams}` : `http://localhost:3000/doctors/${doctorId}/available_slots`
 }
 
-export const getDoctorsDoctorIdAvailableSlots = async (doctorId: string,
-    params?: GetDoctorsDoctorIdAvailableSlotsParams, options?: RequestInit): Promise<void> => {
+export const getAvailableSlots = async (doctorId: string,
+    params?: GetAvailableSlotsParams, options?: RequestInit): Promise<GetAvailableSlots200> => {
   
-  const res = await fetch(getGetDoctorsDoctorIdAvailableSlotsUrl(doctorId,params),
+  const res = await fetch(getGetAvailableSlotsUrl(doctorId,params),
   {      
     ...options,
     method: 'GET'
@@ -251,34 +538,165 @@ export const getDoctorsDoctorIdAvailableSlots = async (doctorId: string,
 )
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: void = body ? JSON.parse(body) : {}
+  const data: GetAvailableSlots200 = body ? JSON.parse(body) : {}
 
   return data
 }
+
+
+
+export const getGetAvailableSlotsQueryKey = (doctorId: string,
+    params?: GetAvailableSlotsParams,) => {
+    return [`http://localhost:3000/doctors/${doctorId}/available_slots`, ...(params ? [params]: [])] as const;
+    }
+
+    
+export const getGetAvailableSlotsQueryOptions = <TData = Awaited<ReturnType<typeof getAvailableSlots>>, TError = unknown>(doctorId: string,
+    params?: GetAvailableSlotsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAvailableSlots>>, TError, TData>>, fetch?: RequestInit}
+) => {
+
+const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetAvailableSlotsQueryKey(doctorId,params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAvailableSlots>>> = ({ signal }) => getAvailableSlots(doctorId,params, { signal, ...fetchOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(doctorId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAvailableSlots>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetAvailableSlotsQueryResult = NonNullable<Awaited<ReturnType<typeof getAvailableSlots>>>
+export type GetAvailableSlotsQueryError = unknown
+
+
+export function useGetAvailableSlots<TData = Awaited<ReturnType<typeof getAvailableSlots>>, TError = unknown>(
+ doctorId: string,
+    params: undefined |  GetAvailableSlotsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAvailableSlots>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAvailableSlots>>,
+          TError,
+          Awaited<ReturnType<typeof getAvailableSlots>>
+        > , 'initialData'
+      >, fetch?: RequestInit}
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetAvailableSlots<TData = Awaited<ReturnType<typeof getAvailableSlots>>, TError = unknown>(
+ doctorId: string,
+    params?: GetAvailableSlotsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAvailableSlots>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAvailableSlots>>,
+          TError,
+          Awaited<ReturnType<typeof getAvailableSlots>>
+        > , 'initialData'
+      >, fetch?: RequestInit}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetAvailableSlots<TData = Awaited<ReturnType<typeof getAvailableSlots>>, TError = unknown>(
+ doctorId: string,
+    params?: GetAvailableSlotsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAvailableSlots>>, TError, TData>>, fetch?: RequestInit}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetAvailableSlots<TData = Awaited<ReturnType<typeof getAvailableSlots>>, TError = unknown>(
+ doctorId: string,
+    params?: GetAvailableSlotsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAvailableSlots>>, TError, TData>>, fetch?: RequestInit}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetAvailableSlotsQueryOptions(doctorId,params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getGetAvailableSlotsSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getAvailableSlots>>, TError = unknown>(doctorId: string,
+    params?: GetAvailableSlotsParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getAvailableSlots>>, TError, TData>>, fetch?: RequestInit}
+) => {
+
+const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetAvailableSlotsQueryKey(doctorId,params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAvailableSlots>>> = ({ signal }) => getAvailableSlots(doctorId,params, { signal, ...fetchOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getAvailableSlots>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetAvailableSlotsSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getAvailableSlots>>>
+export type GetAvailableSlotsSuspenseQueryError = unknown
+
+
+export function useGetAvailableSlotsSuspense<TData = Awaited<ReturnType<typeof getAvailableSlots>>, TError = unknown>(
+ doctorId: string,
+    params: undefined |  GetAvailableSlotsParams, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getAvailableSlots>>, TError, TData>>, fetch?: RequestInit}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetAvailableSlotsSuspense<TData = Awaited<ReturnType<typeof getAvailableSlots>>, TError = unknown>(
+ doctorId: string,
+    params?: GetAvailableSlotsParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getAvailableSlots>>, TError, TData>>, fetch?: RequestInit}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetAvailableSlotsSuspense<TData = Awaited<ReturnType<typeof getAvailableSlots>>, TError = unknown>(
+ doctorId: string,
+    params?: GetAvailableSlotsParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getAvailableSlots>>, TError, TData>>, fetch?: RequestInit}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetAvailableSlotsSuspense<TData = Awaited<ReturnType<typeof getAvailableSlots>>, TError = unknown>(
+ doctorId: string,
+    params?: GetAvailableSlotsParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getAvailableSlots>>, TError, TData>>, fetch?: RequestInit}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetAvailableSlotsSuspenseQueryOptions(doctorId,params,options)
+
+  const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
 
 
 
 /**
  * Create an appointment
  */
-export const getPostSlotsSlotIdBookUrl = (slotId: string,) => {
+export const getCreateAppointmentUrl = (slotId: string,) => {
 
 
   
 
-  return `https://backend-developer-test-tdj0l.kinsta.app/slots/${slotId}/book`
+  return `http://localhost:3000/slots/${slotId}/book`
 }
 
-export const postSlotsSlotIdBook = async (slotId: string,
-    postSlotsSlotIdBookBody: PostSlotsSlotIdBookBody, options?: RequestInit): Promise<void> => {
+export const createAppointment = async (slotId: string,
+    createAppointmentBody: CreateAppointmentBody, options?: RequestInit): Promise<void> => {
   
-  const res = await fetch(getPostSlotsSlotIdBookUrl(slotId),
+  const res = await fetch(getCreateAppointmentUrl(slotId),
   {      
     ...options,
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
     body: JSON.stringify(
-      postSlotsSlotIdBookBody,)
+      createAppointmentBody,)
   }
 )
 
@@ -290,20 +708,64 @@ export const postSlotsSlotIdBook = async (slotId: string,
 
 
 
+
+export const getCreateAppointmentMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createAppointment>>, TError,{slotId: string;data: CreateAppointmentBody}, TContext>, fetch?: RequestInit}
+): UseMutationOptions<Awaited<ReturnType<typeof createAppointment>>, TError,{slotId: string;data: CreateAppointmentBody}, TContext> => {
+    
+const mutationKey = ['createAppointment'];
+const {mutation: mutationOptions, fetch: fetchOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, fetch: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createAppointment>>, {slotId: string;data: CreateAppointmentBody}> = (props) => {
+          const {slotId,data} = props ?? {};
+
+          return  createAppointment(slotId,data,fetchOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateAppointmentMutationResult = NonNullable<Awaited<ReturnType<typeof createAppointment>>>
+    export type CreateAppointmentMutationBody = CreateAppointmentBody
+    export type CreateAppointmentMutationError = unknown
+
+    export const useCreateAppointment = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createAppointment>>, TError,{slotId: string;data: CreateAppointmentBody}, TContext>, fetch?: RequestInit}
+): UseMutationResult<
+        Awaited<ReturnType<typeof createAppointment>>,
+        TError,
+        {slotId: string;data: CreateAppointmentBody},
+        TContext
+      > => {
+
+      const mutationOptions = getCreateAppointmentMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
 /**
  * Get all booked slots for a doctor
  */
-export const getGetDoctorsDoctorIdBookedUrl = (doctorId: string,) => {
+export const getGetBookedSlotsUrl = (doctorId: string,) => {
 
 
   
 
-  return `https://backend-developer-test-tdj0l.kinsta.app/doctors/${doctorId}/booked`
+  return `http://localhost:3000/doctors/${doctorId}/booked`
 }
 
-export const getDoctorsDoctorIdBooked = async (doctorId: string, options?: RequestInit): Promise<GetDoctorsDoctorIdBooked200> => {
+export const getBookedSlots = async (doctorId: string, options?: RequestInit): Promise<GetBookedSlots200> => {
   
-  const res = await fetch(getGetDoctorsDoctorIdBookedUrl(doctorId),
+  const res = await fetch(getGetBookedSlotsUrl(doctorId),
   {      
     ...options,
     method: 'GET'
@@ -313,7 +775,283 @@ export const getDoctorsDoctorIdBooked = async (doctorId: string, options?: Reque
 )
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text()
-  const data: GetDoctorsDoctorIdBooked200 = body ? JSON.parse(body) : {}
+  const data: GetBookedSlots200 = body ? JSON.parse(body) : {}
 
   return data
+}
+
+
+
+export const getGetBookedSlotsQueryKey = (doctorId: string,) => {
+    return [`http://localhost:3000/doctors/${doctorId}/booked`] as const;
+    }
+
+    
+export const getGetBookedSlotsQueryOptions = <TData = Awaited<ReturnType<typeof getBookedSlots>>, TError = unknown>(doctorId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBookedSlots>>, TError, TData>>, fetch?: RequestInit}
+) => {
+
+const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetBookedSlotsQueryKey(doctorId);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getBookedSlots>>> = ({ signal }) => getBookedSlots(doctorId, { signal, ...fetchOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(doctorId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getBookedSlots>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetBookedSlotsQueryResult = NonNullable<Awaited<ReturnType<typeof getBookedSlots>>>
+export type GetBookedSlotsQueryError = unknown
+
+
+export function useGetBookedSlots<TData = Awaited<ReturnType<typeof getBookedSlots>>, TError = unknown>(
+ doctorId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBookedSlots>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getBookedSlots>>,
+          TError,
+          Awaited<ReturnType<typeof getBookedSlots>>
+        > , 'initialData'
+      >, fetch?: RequestInit}
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetBookedSlots<TData = Awaited<ReturnType<typeof getBookedSlots>>, TError = unknown>(
+ doctorId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBookedSlots>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getBookedSlots>>,
+          TError,
+          Awaited<ReturnType<typeof getBookedSlots>>
+        > , 'initialData'
+      >, fetch?: RequestInit}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetBookedSlots<TData = Awaited<ReturnType<typeof getBookedSlots>>, TError = unknown>(
+ doctorId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBookedSlots>>, TError, TData>>, fetch?: RequestInit}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetBookedSlots<TData = Awaited<ReturnType<typeof getBookedSlots>>, TError = unknown>(
+ doctorId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBookedSlots>>, TError, TData>>, fetch?: RequestInit}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetBookedSlotsQueryOptions(doctorId,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getGetBookedSlotsSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getBookedSlots>>, TError = unknown>(doctorId: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getBookedSlots>>, TError, TData>>, fetch?: RequestInit}
+) => {
+
+const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetBookedSlotsQueryKey(doctorId);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getBookedSlots>>> = ({ signal }) => getBookedSlots(doctorId, { signal, ...fetchOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getBookedSlots>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetBookedSlotsSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getBookedSlots>>>
+export type GetBookedSlotsSuspenseQueryError = unknown
+
+
+export function useGetBookedSlotsSuspense<TData = Awaited<ReturnType<typeof getBookedSlots>>, TError = unknown>(
+ doctorId: string, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getBookedSlots>>, TError, TData>>, fetch?: RequestInit}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetBookedSlotsSuspense<TData = Awaited<ReturnType<typeof getBookedSlots>>, TError = unknown>(
+ doctorId: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getBookedSlots>>, TError, TData>>, fetch?: RequestInit}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetBookedSlotsSuspense<TData = Awaited<ReturnType<typeof getBookedSlots>>, TError = unknown>(
+ doctorId: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getBookedSlots>>, TError, TData>>, fetch?: RequestInit}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetBookedSlotsSuspense<TData = Awaited<ReturnType<typeof getBookedSlots>>, TError = unknown>(
+ doctorId: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getBookedSlots>>, TError, TData>>, fetch?: RequestInit}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetBookedSlotsSuspenseQueryOptions(doctorId,options)
+
+  const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+/**
+ * Get a doctor by their ID
+ * @summary Get doctor by ID
+ */
+export const getGetDoctorByIdUrl = (id: string,) => {
+
+
+  
+
+  return `http://localhost:3000/doctors/${id}`
+}
+
+export const getDoctorById = async (id: string, options?: RequestInit): Promise<GetDoctorById200> => {
+  
+  const res = await fetch(getGetDoctorByIdUrl(id),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+)
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text()
+  const data: GetDoctorById200 = body ? JSON.parse(body) : {}
+
+  return data
+}
+
+
+
+export const getGetDoctorByIdQueryKey = (id: string,) => {
+    return [`http://localhost:3000/doctors/${id}`] as const;
+    }
+
+    
+export const getGetDoctorByIdQueryOptions = <TData = Awaited<ReturnType<typeof getDoctorById>>, TError = GetDoctorById404>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getDoctorById>>, TError, TData>>, fetch?: RequestInit}
+) => {
+
+const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetDoctorByIdQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getDoctorById>>> = ({ signal }) => getDoctorById(id, { signal, ...fetchOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getDoctorById>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetDoctorByIdQueryResult = NonNullable<Awaited<ReturnType<typeof getDoctorById>>>
+export type GetDoctorByIdQueryError = GetDoctorById404
+
+
+export function useGetDoctorById<TData = Awaited<ReturnType<typeof getDoctorById>>, TError = GetDoctorById404>(
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getDoctorById>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getDoctorById>>,
+          TError,
+          Awaited<ReturnType<typeof getDoctorById>>
+        > , 'initialData'
+      >, fetch?: RequestInit}
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetDoctorById<TData = Awaited<ReturnType<typeof getDoctorById>>, TError = GetDoctorById404>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getDoctorById>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getDoctorById>>,
+          TError,
+          Awaited<ReturnType<typeof getDoctorById>>
+        > , 'initialData'
+      >, fetch?: RequestInit}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetDoctorById<TData = Awaited<ReturnType<typeof getDoctorById>>, TError = GetDoctorById404>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getDoctorById>>, TError, TData>>, fetch?: RequestInit}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get doctor by ID
+ */
+
+export function useGetDoctorById<TData = Awaited<ReturnType<typeof getDoctorById>>, TError = GetDoctorById404>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getDoctorById>>, TError, TData>>, fetch?: RequestInit}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetDoctorByIdQueryOptions(id,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getGetDoctorByIdSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof getDoctorById>>, TError = GetDoctorById404>(id: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getDoctorById>>, TError, TData>>, fetch?: RequestInit}
+) => {
+
+const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetDoctorByIdQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getDoctorById>>> = ({ signal }) => getDoctorById(id, { signal, ...fetchOptions });
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof getDoctorById>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetDoctorByIdSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof getDoctorById>>>
+export type GetDoctorByIdSuspenseQueryError = GetDoctorById404
+
+
+export function useGetDoctorByIdSuspense<TData = Awaited<ReturnType<typeof getDoctorById>>, TError = GetDoctorById404>(
+ id: string, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getDoctorById>>, TError, TData>>, fetch?: RequestInit}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetDoctorByIdSuspense<TData = Awaited<ReturnType<typeof getDoctorById>>, TError = GetDoctorById404>(
+ id: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getDoctorById>>, TError, TData>>, fetch?: RequestInit}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetDoctorByIdSuspense<TData = Awaited<ReturnType<typeof getDoctorById>>, TError = GetDoctorById404>(
+ id: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getDoctorById>>, TError, TData>>, fetch?: RequestInit}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Get doctor by ID
+ */
+
+export function useGetDoctorByIdSuspense<TData = Awaited<ReturnType<typeof getDoctorById>>, TError = GetDoctorById404>(
+ id: string, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof getDoctorById>>, TError, TData>>, fetch?: RequestInit}
+
+  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetDoctorByIdSuspenseQueryOptions(id,options)
+
+  const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
 }

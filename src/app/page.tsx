@@ -1,6 +1,6 @@
 import { BlurFade } from "@/components/magicui/blur-fade";
 import { getDoctors } from "@/http/api";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 
 export default async function Home() {
 	const doctors = await getDoctors();
