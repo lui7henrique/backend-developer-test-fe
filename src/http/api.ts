@@ -208,7 +208,7 @@ export const getCreateDoctorUrl = () => {
 
   
 
-  return `http://localhost:3000/doctors`
+  return `https://backend-developer-test-tdj0l.kinsta.app/doctors`
 }
 
 export const createDoctor = async (createDoctorBody: CreateDoctorBody, options?: RequestInit): Promise<CreateDoctor201> => {
@@ -284,7 +284,7 @@ export const getGetDoctorsUrl = () => {
 
   
 
-  return `http://localhost:3000/doctors`
+  return `https://backend-developer-test-tdj0l.kinsta.app/doctors`
 }
 
 export const getDoctors = async ( options?: RequestInit): Promise<GetDoctors200Item[]> => {
@@ -307,7 +307,7 @@ export const getDoctors = async ( options?: RequestInit): Promise<GetDoctors200I
 
 
 export const getGetDoctorsQueryKey = () => {
-    return [`http://localhost:3000/doctors`] as const;
+    return [`https://backend-developer-test-tdj0l.kinsta.app/doctors`] as const;
     }
 
     
@@ -440,7 +440,7 @@ export const getCreateSlotUrl = () => {
 
   
 
-  return `http://localhost:3000/slots`
+  return `https://backend-developer-test-tdj0l.kinsta.app/slots`
 }
 
 export const createSlot = async (createSlotBody: CreateSlotBody, options?: RequestInit): Promise<CreateSlot201> => {
@@ -523,7 +523,7 @@ export const getGetAvailableSlotsUrl = (doctorId: string,
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `http://localhost:3000/doctors/${doctorId}/available_slots?${stringifiedParams}` : `http://localhost:3000/doctors/${doctorId}/available_slots`
+  return stringifiedParams.length > 0 ? `https://backend-developer-test-tdj0l.kinsta.app/doctors/${doctorId}/available_slots?${stringifiedParams}` : `https://backend-developer-test-tdj0l.kinsta.app/doctors/${doctorId}/available_slots`
 }
 
 export const getAvailableSlots = async (doctorId: string,
@@ -548,7 +548,7 @@ export const getAvailableSlots = async (doctorId: string,
 
 export const getGetAvailableSlotsQueryKey = (doctorId: string,
     params?: GetAvailableSlotsParams,) => {
-    return [`http://localhost:3000/doctors/${doctorId}/available_slots`, ...(params ? [params]: [])] as const;
+    return [`https://backend-developer-test-tdj0l.kinsta.app/doctors/${doctorId}/available_slots`, ...(params ? [params]: [])] as const;
     }
 
     
@@ -685,7 +685,7 @@ export const getCreateAppointmentUrl = (slotId: string,) => {
 
   
 
-  return `http://localhost:3000/slots/${slotId}/book`
+  return `https://backend-developer-test-tdj0l.kinsta.app/slots/${slotId}/book`
 }
 
 export const createAppointment = async (slotId: string,
@@ -761,7 +761,7 @@ export const getGetBookedSlotsUrl = (doctorId: string,) => {
 
   
 
-  return `http://localhost:3000/doctors/${doctorId}/booked`
+  return `https://backend-developer-test-tdj0l.kinsta.app/doctors/${doctorId}/booked`
 }
 
 export const getBookedSlots = async (doctorId: string, options?: RequestInit): Promise<GetBookedSlots200> => {
@@ -784,7 +784,7 @@ export const getBookedSlots = async (doctorId: string, options?: RequestInit): P
 
 
 export const getGetBookedSlotsQueryKey = (doctorId: string,) => {
-    return [`http://localhost:3000/doctors/${doctorId}/booked`] as const;
+    return [`https://backend-developer-test-tdj0l.kinsta.app/doctors/${doctorId}/booked`] as const;
     }
 
     
@@ -912,7 +912,7 @@ export const getGetDoctorByIdUrl = (id: string,) => {
 
   
 
-  return `http://localhost:3000/doctors/${id}`
+  return `https://backend-developer-test-tdj0l.kinsta.app/doctors/${id}`
 }
 
 export const getDoctorById = async (id: string, options?: RequestInit): Promise<GetDoctorById200> => {
@@ -935,7 +935,7 @@ export const getDoctorById = async (id: string, options?: RequestInit): Promise<
 
 
 export const getGetDoctorByIdQueryKey = (id: string,) => {
-    return [`http://localhost:3000/doctors/${id}`] as const;
+    return [`https://backend-developer-test-tdj0l.kinsta.app/doctors/${id}`] as const;
     }
 
     
