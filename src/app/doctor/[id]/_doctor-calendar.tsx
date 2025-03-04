@@ -26,10 +26,12 @@ export function DoctorCalendar({ id }: CalendarProps) {
 		defaultValue: format(new Date(), "yyyy-MM-dd"),
 	});
 
-	const { data } = useGetAvailableSlotsSuspense(id, {
+	const { data, queryKey } = useGetAvailableSlotsSuspense(id, {
 		startDate: startDate,
 		endDate: endDate,
 	});
+
+	console.log({ queryKey1: queryKey });
 
 	const currentData = data?.availableSlots.find(
 		(slot) => slot.date === selectedDate,

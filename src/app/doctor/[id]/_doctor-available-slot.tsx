@@ -17,10 +17,19 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import type { GetAvailableSlots200AvailableSlotsItemSlotsItem } from "@/http/api";
+import {
+	type GetAvailableSlots200AvailableSlotsItemSlotsItem,
+	getAvailableSlots,
+	getGetAvailableSlotsQueryKey,
+	useCreateAppointment,
+} from "@/http/api";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { format } from "date-fns";
+import { useQueryClient } from "@tanstack/react-query";
+import { addDays, format } from "date-fns";
+import { useQueryState } from "nuqs";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 type DoctorAvailableSlotProps = {
@@ -35,6 +44,9 @@ export function DoctorAvailableSlot({ slot }: DoctorAvailableSlotProps) {
 	const startTime = new Date(slot.startTime);
 	const endTime = new Date(slot.endTime);
 
+	const { mutateAsync: createAppointment } = useCreateAppointment();
+
+	const [open, setOpen] = useState(false);
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -42,12 +54,46 @@ export function DoctorAvailableSlot({ slot }: DoctorAvailableSlotProps) {
 		},
 	});
 
-	const onSubmit = (values: z.infer<typeof formSchema>) => {
-		console.log(values);
+	const queryClient = useQueryClient();
+
+	const [startDate, _setStartDate] = useQueryState("startDate", {
+		defaultValue: format(startTime, "yyyy-MM-dd"),
+	});
+	const [endDate, _setEndDate] = useQueryState("endDate", {
+		defaultValue: format(addDays(startTime, 1), "yyyy-MM-dd"),
+	});
+
+	const onSubmit = async (values: z.infer<typeof formSchema>) => {
+		await createAppointment(
+			{
+				data: {
+					patientEmail: values.patientEmail,
+					startTime: startTime.toISOString(),
+					endTime: endTime.toISOString(),
+				},
+				slotId: slot.id,
+			},
+			{
+				onSuccess: () => {
+					toast.success("Appointment created successfully");
+					setOpen(false);
+
+					const queryKey = getGetAvailableSlotsQueryKey(slot.doctorId, {
+						startDate: startDate,
+						endDate: endDate,
+					});
+
+					queryClient.invalidateQueries({
+						queryKey: queryKey,
+						exact: true,
+					});
+				},
+			},
+		);
 	};
 
 	return (
-		<Dialog>
+		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
 				<div
 					key={slot.id}
@@ -70,7 +116,7 @@ export function DoctorAvailableSlot({ slot }: DoctorAvailableSlotProps) {
 				</DialogHeader>
 
 				<Form {...form}>
-					<form onSubmit={form.handleSubmit(onSubmit)}>
+					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 						<FormField
 							control={form.control}
 							name="patientEmail"
@@ -85,12 +131,14 @@ export function DoctorAvailableSlot({ slot }: DoctorAvailableSlotProps) {
 								</FormItem>
 							)}
 						/>
+
+						<DialogFooter>
+							<Button disabled={form.formState.isSubmitting} type="submit">
+								{form.formState.isSubmitting ? "Booking..." : "Book"}
+							</Button>
+						</DialogFooter>
 					</form>
 				</Form>
-
-				<DialogFooter>
-					<Button>Book</Button>
-				</DialogFooter>
 			</DialogContent>
 		</Dialog>
 	);

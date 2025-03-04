@@ -3,6 +3,7 @@ import "./globals.css";
 import { Providers } from "@/components/providers";
 import { ViewTransitions } from "next-view-transitions";
 import { Inter, Playfair_Display } from "next/font/google";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 const playfair = Playfair_Display({ subsets: ["latin"] });
@@ -33,6 +34,7 @@ export default function RootLayout({
 					<body className={`${inter.className} bg-[#f9f5f3] mx-4 my-12`}>
 						<main className="mx-auto max-w-2xl bg-white border rounded-lg p-4">
 							{children}
+							<Toaster />
 						</main>
 					</body>
 				</html>
