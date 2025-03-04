@@ -13,6 +13,14 @@ export function DoctorBookedSlots({ id }: DoctorBookedSlotsProps) {
 
 	if (!data) return null;
 
+	if (data.bookedSlots.length === 0) {
+		return (
+			<div className="flex flex-col gap-4">
+				<p className="text-sm text-muted-foreground">No booked slots.</p>
+			</div>
+		);
+	}
+
 	return (
 		<div className="flex flex-col gap-4">
 			{data.bookedSlots.map((slot, index) => (

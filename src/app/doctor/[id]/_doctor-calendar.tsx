@@ -31,8 +31,6 @@ export function DoctorCalendar({ id }: CalendarProps) {
 		endDate: endDate,
 	});
 
-	console.log({ queryKey1: queryKey });
-
 	const currentData = data?.availableSlots.find(
 		(slot) => slot.date === selectedDate,
 	);
@@ -71,6 +69,7 @@ export function DoctorCalendar({ id }: CalendarProps) {
 						table: "w-full h-full border-collapse space-y-1",
 						head_row: "",
 						row: "w-full mt-2",
+						day_outside: "pointer-events-none !opacity-0",
 					}}
 					fromDate={new Date()}
 					components={{

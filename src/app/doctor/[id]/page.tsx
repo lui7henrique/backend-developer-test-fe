@@ -4,8 +4,8 @@ import { getDoctorById } from "@/http/api";
 import { ArrowLeftIcon } from "lucide-react";
 import { Link } from "next-view-transitions";
 import { redirect } from "next/navigation";
+import { DoctorBookedSlots } from "./_doctor-booked-slots";
 import { DoctorCalendar } from "./_doctor-calendar";
-import { DoctorBookedSlots } from "./_doctor-schedule";
 
 type DoctorPageProps = {
 	params: Promise<{ id: string }>;
