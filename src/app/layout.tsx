@@ -27,7 +27,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={`${inter.className} bg-[#f9f5f3] px-4 py-12`}>
-				<main className="mx-auto max-w-3xl bg-white border rounded-lg p-4">
+				<main className="mx-auto max-w-2xl bg-white border rounded-lg p-4">
 					{children}
 				</main>
 			</body>
