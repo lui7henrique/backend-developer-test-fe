@@ -25,7 +25,7 @@ export function DoctorBookedSlots({ id }: DoctorBookedSlotsProps) {
 		<div className="flex flex-col gap-4">
 			{data.bookedSlots.map((slot, index) => (
 				<BlurFade key={slot.id} delay={index * 0.1}>
-					<div className="flex flex-col gap-1 p-3 border-b">
+					<div className="flex flex-col gap-1 p-3 border-b last:border-b-0">
 						<div className="flex justify-between items-center">
 							<h5 className="text-lg font-bold">{slot.patientEmail}</h5>
 							<p className="text-sm font-medium">

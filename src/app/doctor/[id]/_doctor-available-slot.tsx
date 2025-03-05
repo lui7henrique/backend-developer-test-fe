@@ -17,16 +17,16 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+
 import {
 	type GetAvailableSlots200AvailableSlotsItemSlotsItem,
-	getAvailableSlots,
 	getGetAvailableSlotsQueryKey,
 	getGetBookedSlotsQueryKey,
 	useCreateAppointment,
 } from "@/http/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
-import { addDays, format } from "date-fns";
+import { addDays, format, isPast } from "date-fns";
 import { useQueryState } from "nuqs";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -44,6 +44,7 @@ const formSchema = z.object({
 export function DoctorAvailableSlot({ slot }: DoctorAvailableSlotProps) {
 	const startTime = new Date(slot.startTime);
 	const endTime = new Date(slot.endTime);
+	const isSlotPast = isPast(startTime);
 
 	const { mutateAsync: createAppointment } = useCreateAppointment();
 
@@ -97,10 +98,14 @@ export function DoctorAvailableSlot({ slot }: DoctorAvailableSlotProps) {
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
-			<DialogTrigger asChild>
+			<DialogTrigger asChild disabled={isSlotPast}>
 				<div
 					key={slot.id}
-					className="flex items-center gap-2 cursor-pointer border rounded-lg px-4 py-2"
+					className={`flex items-center gap-2 border rounded-lg px-4 py-2 ${
+						isSlotPast
+							? "opacity-50 cursor-not-allowed pointer-events-none bg-gray-100"
+							: "cursor-pointer"
+					}`}
 				>
 					<p>{format(startTime, "h:mm a")}</p>-
 					<p>{format(endTime, "h:mm a")}</p>
